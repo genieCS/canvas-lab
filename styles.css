@@ -7,9 +7,9 @@
   --ink: #eef6f4;
   --muted: #92a3ad;
   --line: #22313b;
-  --accent: #4aff7d;
-  --accent-dark: #b8ffcb;
-  --accent-soft: rgba(74, 255, 125, 0.14);
+  --accent: #3581ef;
+  --accent-dark: #aecaff;
+  --accent-soft: rgba(53, 129, 239, 0.16);
   --field: #0b1117;
   --shadow: 0 22px 70px rgba(0, 0, 0, 0.36);
 }
@@ -22,7 +22,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% 8%, rgba(74, 255, 125, 0.18), transparent 28%),
+    radial-gradient(circle at 12% 8%, rgba(53, 129, 239, 0.22), transparent 28%),
     radial-gradient(circle at 84% 18%, rgba(96, 165, 250, 0.14), transparent 26%),
     linear-gradient(180deg, #0d1218, #070a0f 68%),
     var(--bg);
@@ -436,20 +436,20 @@ h2 {
   display: grid;
   place-items: center;
   border-color: var(--accent);
-  color: #06100a;
+  color: #f7fbff;
 }
 
 .primary-button {
   min-height: 52px;
-  border-color: #8fffb0;
-  background: linear-gradient(90deg, #86ffb0 0%, #a8ffdb 42%, #72f7ff 58%, #74ff91 100%);
-  box-shadow: 0 0 0 1px rgba(184, 255, 203, 0.16), 0 14px 34px rgba(74, 255, 125, 0.18);
+  border-color: #5d9dff;
+  background: linear-gradient(90deg, #7062ff 0%, #4c88ff 34%, #65b6ff 58%, #5a6dff 100%);
+  box-shadow: 0 0 0 1px rgba(126, 171, 255, 0.22), 0 14px 34px rgba(53, 129, 239, 0.28);
   font-size: 17px;
   font-weight: 900;
 }
 
 .primary-button:hover {
-  border-color: #c3ffd2;
+  border-color: #9fc4ff;
   filter: brightness(1.06);
 }
 

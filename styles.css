@@ -56,30 +56,12 @@ a {
   overflow: hidden;
 }
 
-.trust-section,
 .site-footer {
   margin-top: 18px;
   border: 1px solid rgba(98, 123, 134, 0.24);
   border-radius: 8px;
   background: rgba(16, 24, 32, 0.78);
   box-shadow: var(--shadow);
-}
-
-.trust-section {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.15fr);
-  gap: 18px;
-  padding: 22px 24px;
-}
-
-.trust-section h2 {
-  margin-top: 4px;
-  font-size: 22px;
-}
-
-.trust-section p:last-child {
-  color: var(--muted);
-  line-height: 1.65;
 }
 
 .site-footer {
@@ -167,6 +149,20 @@ a {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.hero-message {
+  max-width: 760px;
+}
+
+.topbar-copy {
+  display: grid;
+  max-width: 620px;
+  gap: 4px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
 }
 
 .language-picker {
@@ -597,10 +593,6 @@ h2 {
 
 @media (max-width: 860px) {
   .tool-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .trust-section {
     grid-template-columns: 1fr;
   }
 

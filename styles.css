@@ -115,6 +115,18 @@ a {
   font-weight: 900;
 }
 
+#business-info {
+  margin-top: 18px;
+  color: #6f7f89;
+  font-size: 12px;
+}
+
+#business-info summary {
+  color: #7d8b94;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .policy-content {
   display: grid;
   gap: 10px;
@@ -125,23 +137,28 @@ a {
 
 .business-list {
   display: grid;
-  gap: 8px;
-  margin: 12px 0 0;
+  gap: 6px;
+  margin: 14px 0 0;
 }
 
 .business-list div {
   display: grid;
-  grid-template-columns: 160px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 10px;
 }
 
 .business-list dt {
-  color: var(--muted);
-  font-weight: 800;
+  color: #687882;
+  font-weight: 700;
 }
 
 .business-list dd {
   margin: 0;
+  color: #788791;
+}
+
+.business-list a {
+  color: #82919a;
 }
 
 .footer-note {

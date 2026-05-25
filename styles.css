@@ -155,11 +155,19 @@ a {
   max-width: 760px;
 }
 
+.topbar-trust {
+  margin-top: 10px;
+  color: #dbeaff;
+  font-size: clamp(17px, 2vw, 24px);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
 .topbar-copy {
   display: grid;
   max-width: 620px;
-  gap: 4px;
-  margin-top: 14px;
+  gap: 5px;
+  margin-top: 10px;
   color: var(--muted);
   font-size: 15px;
   line-height: 1.55;

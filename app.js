@@ -32,7 +32,7 @@ let conversionToken = 0;
 
 const translations = {
   ko: {
-    pageTitle: "Canvas Lab 이미지 변환기",
+    pageTitle: "PicMini 이미지 변환기",
     appAria: "이미지 변환 도구",
     title: "이미지 변환기",
     language: "언어",
@@ -67,11 +67,11 @@ const translations = {
     trustAria: "보안 및 개인정보 안내",
     trustEyebrow: "Private by design",
     trustTitle: "이미지는 서버로 업로드되지 않습니다.",
-    trustCopyLine1: "Canvas Lab은 선택한 이미지를 사용자의 브라우저 안에서 처리합니다.",
+    trustCopyLine1: "PicMini는 선택한 이미지를 사용자의 브라우저 안에서 처리합니다.",
     trustCopyLine2: "리사이즈, 포맷 변환, 압축 과정에서 원본 이미지 파일을 별도 서버로 전송하거나 저장하지 않습니다.",
     privacyTitle: "개인정보 처리방침",
     privacyLocal:
-      "Canvas Lab은 이미지 변환 기능 제공을 위해 사용자가 선택한 이미지 파일을 서버로 업로드하거나 저장하지 않습니다. 이미지 처리는 브라우저 내에서 수행됩니다.",
+      "PicMini는 이미지 변환 기능 제공을 위해 사용자가 선택한 이미지 파일을 서버로 업로드하거나 저장하지 않습니다. 이미지 처리는 브라우저 내에서 수행됩니다.",
     privacyAds:
       "이 사이트는 Google AdSense를 사용할 수 있으며, Google 및 파트너는 광고 제공과 측정을 위해 쿠키, IP 주소, 기기 식별자 등 정보를 사용할 수 있습니다.",
     privacyControl:
@@ -90,10 +90,10 @@ const translations = {
     emailLabel: "이메일",
     addressLabel: "주소",
     addressValue: "경기도 용인시 수지구 현암로 148, 1동 6층 602호 -C30(죽전동, 죽전스카이프라자)",
-    footerNote: "© 2026 Canvas Lab. All rights reserved.",
+    footerNote: "© 2026 PicMini. All rights reserved.",
   },
   en: {
-    pageTitle: "Canvas Lab Image Converter",
+    pageTitle: "PicMini Image Converter",
     appAria: "Image conversion tool",
     title: "Image Converter",
     language: "Language",
@@ -128,11 +128,11 @@ const translations = {
     trustAria: "Security and privacy notice",
     trustEyebrow: "Private by design",
     trustTitle: "Your images are not uploaded to a server.",
-    trustCopyLine1: "Canvas Lab processes selected images inside your browser.",
+    trustCopyLine1: "PicMini processes selected images inside your browser.",
     trustCopyLine2: "During resizing, format conversion, and compression, original files are not sent to or stored on a separate server.",
     privacyTitle: "Privacy Policy",
     privacyLocal:
-      "Canvas Lab does not upload or store image files selected by users for image conversion. Image processing happens locally in the browser.",
+      "PicMini does not upload or store image files selected by users for image conversion. Image processing happens locally in the browser.",
     privacyAds:
       "This site may use Google AdSense. Google and its partners may use cookies, IP addresses, device identifiers, and similar information for ad delivery and measurement.",
     privacyControl:
@@ -151,10 +151,10 @@ const translations = {
     emailLabel: "Email",
     addressLabel: "Address",
     addressValue: "경기도 용인시 수지구 현암로 148, 1동 6층 602호 -C30(죽전동, 죽전스카이프라자)",
-    footerNote: "© 2026 Canvas Lab. All rights reserved.",
+    footerNote: "© 2026 PicMini. All rights reserved.",
   },
   ja: {
-    pageTitle: "Canvas Lab 画像コンバーター",
+    pageTitle: "PicMini 画像コンバーター",
     appAria: "画像変換ツール",
     title: "画像コンバーター",
     language: "言語",
@@ -189,11 +189,11 @@ const translations = {
     trustAria: "セキュリティとプライバシーの案内",
     trustEyebrow: "Private by design",
     trustTitle: "画像はサーバーにアップロードされません。",
-    trustCopyLine1: "Canvas Labは選択した画像をユーザーのブラウザ内で処理します。",
+    trustCopyLine1: "PicMiniは選択した画像をユーザーのブラウザ内で処理します。",
     trustCopyLine2: "リサイズ、形式変換、圧縮の過程で元画像ファイルを別サーバーへ送信または保存しません。",
     privacyTitle: "プライバシーポリシー",
     privacyLocal:
-      "Canvas Labは画像変換機能の提供にあたり、ユーザーが選択した画像ファイルをサーバーへアップロードまたは保存しません。画像処理はブラウザ内で行われます。",
+      "PicMiniは画像変換機能の提供にあたり、ユーザーが選択した画像ファイルをサーバーへアップロードまたは保存しません。画像処理はブラウザ内で行われます。",
     privacyAds:
       "このサイトではGoogle AdSenseを使用する場合があります。Googleおよびパートナーは広告配信と測定のため、Cookie、IPアドレス、デバイス識別子などを使用することがあります。",
     privacyControl: "ユーザーはブラウザ設定でCookieの保存を制限または削除できます。広告に関する詳細はGoogleの広告プライバシー情報をご確認ください。",
@@ -211,10 +211,10 @@ const translations = {
     emailLabel: "メール",
     addressLabel: "住所",
     addressValue: "경기도 용인시 수지구 현암로 148, 1동 6층 602호 -C30(죽전동, 죽전스카이프라자)",
-    footerNote: "© 2026 Canvas Lab. All rights reserved.",
+    footerNote: "© 2026 PicMini. All rights reserved.",
   },
   zh: {
-    pageTitle: "Canvas Lab 图像转换器",
+    pageTitle: "PicMini 图像转换器",
     appAria: "图像转换工具",
     title: "图像转换器",
     language: "语言",
@@ -249,10 +249,10 @@ const translations = {
     trustAria: "安全与隐私说明",
     trustEyebrow: "Private by design",
     trustTitle: "图像不会上传到服务器。",
-    trustCopyLine1: "Canvas Lab 会在用户的浏览器中处理所选图像。",
+    trustCopyLine1: "PicMini 会在用户的浏览器中处理所选图像。",
     trustCopyLine2: "调整尺寸、格式转换和压缩过程中，原始图像文件不会发送到或存储在单独服务器上。",
     privacyTitle: "隐私政策",
-    privacyLocal: "Canvas Lab 不会为了图像转换功能上传或存储用户选择的图像文件。图像处理在浏览器内完成。",
+    privacyLocal: "PicMini 不会为了图像转换功能上传或存储用户选择的图像文件。图像处理在浏览器内完成。",
     privacyAds: "本网站可能使用 Google AdSense。Google 及其合作伙伴可能会使用 Cookie、IP 地址、设备标识符等信息进行广告投放和衡量。",
     privacyControl: "用户可以在浏览器设置中限制或删除 Cookie。有关广告的更多信息，请参阅 Google 的广告隐私说明。",
     businessTitle: "商家信息",
@@ -269,10 +269,10 @@ const translations = {
     emailLabel: "电子邮件",
     addressLabel: "地址",
     addressValue: "경기도 용인시 수지구 현암로 148, 1동 6층 602호 -C30(죽전동, 죽전스카이프라자)",
-    footerNote: "© 2026 Canvas Lab. All rights reserved.",
+    footerNote: "© 2026 PicMini. All rights reserved.",
   },
   fr: {
-    pageTitle: "Convertisseur d’images Canvas Lab",
+    pageTitle: "Convertisseur d’images PicMini",
     appAria: "Outil de conversion d’images",
     title: "Convertisseur d’images",
     language: "Langue",
@@ -307,11 +307,11 @@ const translations = {
     trustAria: "Notice de sécurité et de confidentialité",
     trustEyebrow: "Private by design",
     trustTitle: "Vos images ne sont pas téléversées sur un serveur.",
-    trustCopyLine1: "Canvas Lab traite les images sélectionnées dans votre navigateur.",
+    trustCopyLine1: "PicMini traite les images sélectionnées dans votre navigateur.",
     trustCopyLine2: "Lors du redimensionnement, de la conversion et de la compression, les fichiers originaux ne sont ni envoyés ni stockés sur un serveur séparé.",
     privacyTitle: "Politique de confidentialité",
     privacyLocal:
-      "Canvas Lab ne téléverse ni ne stocke les images sélectionnées par les utilisateurs pour la conversion. Le traitement des images s’effectue localement dans le navigateur.",
+      "PicMini ne téléverse ni ne stocke les images sélectionnées par les utilisateurs pour la conversion. Le traitement des images s’effectue localement dans le navigateur.",
     privacyAds:
       "Ce site peut utiliser Google AdSense. Google et ses partenaires peuvent utiliser des cookies, adresses IP, identifiants d’appareil et informations similaires pour diffuser et mesurer les annonces.",
     privacyControl: "Vous pouvez limiter ou supprimer les cookies dans les paramètres de votre navigateur. Pour en savoir plus, consultez les informations de Google sur la confidentialité publicitaire.",
@@ -329,10 +329,10 @@ const translations = {
     emailLabel: "E-mail",
     addressLabel: "Adresse",
     addressValue: "경기도 용인시 수지구 현암로 148, 1동 6층 602호 -C30(죽전동, 죽전스카이프라자)",
-    footerNote: "© 2026 Canvas Lab. All rights reserved.",
+    footerNote: "© 2026 PicMini. All rights reserved.",
   },
   es: {
-    pageTitle: "Convertidor de imágenes Canvas Lab",
+    pageTitle: "Convertidor de imágenes PicMini",
     appAria: "Herramienta de conversión de imágenes",
     title: "Convertidor de imágenes",
     language: "Idioma",
@@ -367,11 +367,11 @@ const translations = {
     trustAria: "Aviso de seguridad y privacidad",
     trustEyebrow: "Private by design",
     trustTitle: "Tus imágenes no se suben a un servidor.",
-    trustCopyLine1: "Canvas Lab procesa las imágenes seleccionadas dentro de tu navegador.",
+    trustCopyLine1: "PicMini procesa las imágenes seleccionadas dentro de tu navegador.",
     trustCopyLine2: "Durante el cambio de tamaño, la conversión y la compresión, los archivos originales no se envían ni se almacenan en un servidor separado.",
     privacyTitle: "Política de privacidad",
     privacyLocal:
-      "Canvas Lab no sube ni almacena las imágenes seleccionadas por los usuarios para la conversión. El procesamiento se realiza localmente en el navegador.",
+      "PicMini no sube ni almacena las imágenes seleccionadas por los usuarios para la conversión. El procesamiento se realiza localmente en el navegador.",
     privacyAds:
       "Este sitio puede usar Google AdSense. Google y sus socios pueden usar cookies, direcciones IP, identificadores de dispositivo e información similar para publicar y medir anuncios.",
     privacyControl: "Los usuarios pueden limitar o eliminar cookies desde la configuración del navegador. Para más información, consulta la información de privacidad publicitaria de Google.",
@@ -389,10 +389,10 @@ const translations = {
     emailLabel: "Correo electrónico",
     addressLabel: "Dirección",
     addressValue: "경기도 용인시 수지구 현암로 148, 1동 6층 602호 -C30(죽전동, 죽전스카이프라자)",
-    footerNote: "© 2026 Canvas Lab. All rights reserved.",
+    footerNote: "© 2026 PicMini. All rights reserved.",
   },
   de: {
-    pageTitle: "Canvas Lab Bildkonverter",
+    pageTitle: "PicMini Bildkonverter",
     appAria: "Werkzeug zur Bildkonvertierung",
     title: "Bildkonverter",
     language: "Sprache",
@@ -427,11 +427,11 @@ const translations = {
     trustAria: "Sicherheits- und Datenschutzhinweis",
     trustEyebrow: "Private by design",
     trustTitle: "Ihre Bilder werden nicht auf einen Server hochgeladen.",
-    trustCopyLine1: "Canvas Lab verarbeitet ausgewählte Bilder direkt im Browser.",
+    trustCopyLine1: "PicMini verarbeitet ausgewählte Bilder direkt im Browser.",
     trustCopyLine2: "Beim Ändern der Größe, Konvertieren und Komprimieren werden Originaldateien nicht an einen separaten Server gesendet oder dort gespeichert.",
     privacyTitle: "Datenschutzerklärung",
     privacyLocal:
-      "Canvas Lab lädt oder speichert keine von Nutzern ausgewählten Bilddateien für die Konvertierung. Die Bildverarbeitung erfolgt lokal im Browser.",
+      "PicMini lädt oder speichert keine von Nutzern ausgewählten Bilddateien für die Konvertierung. Die Bildverarbeitung erfolgt lokal im Browser.",
     privacyAds:
       "Diese Website kann Google AdSense verwenden. Google und seine Partner können Cookies, IP-Adressen, Gerätekennungen und ähnliche Informationen zur Anzeigenbereitstellung und Messung verwenden.",
     privacyControl: "Nutzer können Cookies in den Browsereinstellungen einschränken oder löschen. Weitere Informationen finden Sie in Googles Datenschutzhinweisen zu Werbung.",
@@ -449,7 +449,7 @@ const translations = {
     emailLabel: "E-Mail",
     addressLabel: "Adresse",
     addressValue: "경기도 용인시 수지구 현암로 148, 1동 6층 602호 -C30(죽전동, 죽전스카이프라자)",
-    footerNote: "© 2026 Canvas Lab. All rights reserved.",
+    footerNote: "© 2026 PicMini. All rights reserved.",
   },
 };
 

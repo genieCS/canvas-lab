@@ -26,6 +26,8 @@ let sourceUrl = null;
 let originalWidth = 0;
 let originalHeight = 0;
 let lastObjectUrl = null;
+let lastResultBlob = null;
+let lastResultFileName = "";
 let activeDimension = null;
 let currentLang = "en";
 let conversionToken = 0;
@@ -56,7 +58,7 @@ const translations = {
     convert: "변환하기",
     converting: "변환 중...",
     resultDone: "변환 완료",
-    download: "다운로드",
+    download: "저장하기",
     noCompressionHint: "압축하지 않고 선택한 크기와 포맷으로만 내보냅니다.",
     pngHint: "PNG는 압축률이 높을수록 색상 수를 줄입니다. 투명도는 유지되지만 색 표현이 단순해질 수 있습니다.",
     gifHint: "GIF는 애니메이션을 유지하며 최적화합니다. 압축률이 높을수록 손실 압축과 색상 수 감소가 강해집니다.",
@@ -118,7 +120,7 @@ const translations = {
     convert: "Convert",
     converting: "Converting...",
     resultDone: "Conversion complete",
-    download: "Download",
+    download: "Save",
     noCompressionHint: "Export with the selected size and format without extra compression.",
     pngHint: "PNG reduces file size by lowering the color count as compression increases. Transparency is preserved, but colors may look simpler.",
     gifHint: "GIF keeps animation while optimizing. Higher compression increases lossy compression and color reduction.",
@@ -180,7 +182,7 @@ const translations = {
     convert: "変換",
     converting: "変換中...",
     resultDone: "変換完了",
-    download: "ダウンロード",
+    download: "保存",
     noCompressionHint: "追加圧縮せず、選択したサイズと形式で書き出します。",
     pngHint: "PNGは圧縮率が高いほど色数を減らして容量を下げます。透明度は維持されますが、色表現が単純になることがあります。",
     gifHint: "GIFはアニメーションを維持したまま最適化します。圧縮率が高いほど非可逆圧縮と色数削減が強くなります。",
@@ -241,7 +243,7 @@ const translations = {
     convert: "转换",
     converting: "转换中...",
     resultDone: "转换完成",
-    download: "下载",
+    download: "保存",
     noCompressionHint: "不额外压缩，仅按所选尺寸和格式导出。",
     pngHint: "PNG 会在压缩率提高时减少颜色数量来降低文件大小。透明度会保留，但颜色表现可能更简单。",
     gifHint: "GIF 会在保留动画的同时进行优化。压缩率越高，有损压缩和颜色减少越强。",
@@ -300,7 +302,7 @@ const translations = {
     convert: "Convertir",
     converting: "Conversion...",
     resultDone: "Conversion terminée",
-    download: "Télécharger",
+    download: "Enregistrer",
     noCompressionHint: "Exporte avec la taille et le format choisis, sans compression supplémentaire.",
     pngHint: "Le PNG réduit la taille du fichier en diminuant le nombre de couleurs quand la compression augmente. La transparence est conservée, mais les couleurs peuvent être simplifiées.",
     gifHint: "Le GIF conserve l’animation tout en l’optimisant. Une compression plus forte augmente la compression avec perte et la réduction des couleurs.",
@@ -361,7 +363,7 @@ const translations = {
     convert: "Convertir",
     converting: "Convirtiendo...",
     resultDone: "Conversión completada",
-    download: "Descargar",
+    download: "Guardar",
     noCompressionHint: "Exporta con el tamaño y formato seleccionados, sin compresión adicional.",
     pngHint: "PNG reduce el tamaño del archivo disminuyendo la cantidad de colores a medida que aumenta la compresión. La transparencia se conserva, pero los colores pueden verse más simples.",
     gifHint: "GIF mantiene la animación mientras optimiza. Una compresión más alta aumenta la compresión con pérdida y la reducción de colores.",
@@ -422,7 +424,7 @@ const translations = {
     convert: "Konvertieren",
     converting: "Konvertiere...",
     resultDone: "Konvertierung abgeschlossen",
-    download: "Herunterladen",
+    download: "Speichern",
     noCompressionHint: "Exportiert nur mit der gewählten Größe und dem gewählten Format, ohne zusätzliche Komprimierung.",
     pngHint: "PNG reduziert die Dateigröße, indem bei höherer Komprimierung die Farbanzahl verringert wird. Transparenz bleibt erhalten, Farben können jedoch einfacher wirken.",
     gifHint: "GIF behält die Animation bei und wird optimiert. Höhere Komprimierung verstärkt verlustbehaftete Komprimierung und Farbreduktion.",
@@ -617,6 +619,8 @@ function setResultHidden() {
   downloadLink.removeAttribute("href");
   downloadLink.removeAttribute("download");
   downloadLink.hidden = false;
+  lastResultBlob = null;
+  lastResultFileName = "";
   if (lastObjectUrl) {
     URL.revokeObjectURL(lastObjectUrl);
     lastObjectUrl = null;
@@ -859,8 +863,10 @@ async function convertImage() {
 
 function showResult(blob, format, targetWidth, targetHeight) {
   lastObjectUrl = URL.createObjectURL(blob);
+  lastResultBlob = blob;
+  lastResultFileName = outputFileName(sourceFile.name, format);
   downloadLink.href = lastObjectUrl;
-  downloadLink.download = outputFileName(sourceFile.name, format);
+  downloadLink.download = lastResultFileName;
   downloadLink.hidden = false;
 
   const savedRatio = sourceFile.size ? Math.round((1 - blob.size / sourceFile.size) * 100) : 0;
@@ -873,6 +879,30 @@ function showError(message) {
   resultSummary.textContent = message;
   downloadLink.hidden = true;
   resultPanel.hidden = false;
+}
+
+function canShareResultFile(file) {
+  return Boolean(navigator.share && (!navigator.canShare || navigator.canShare({ files: [file] })));
+}
+
+async function shareResultFile(event) {
+  if (!lastResultBlob || !lastResultFileName) return;
+
+  const file = new File([lastResultBlob], lastResultFileName, { type: lastResultBlob.type || "image/png" });
+  if (!canShareResultFile(file)) return;
+
+  event.preventDefault();
+
+  try {
+    await navigator.share({
+      files: [file],
+      title: lastResultFileName,
+    });
+  } catch (error) {
+    if (error?.name !== "AbortError") {
+      window.location.href = downloadLink.href;
+    }
+  }
 }
 
 dropZone.addEventListener("dragover", (event) => {
@@ -921,6 +951,8 @@ compressionInputs.forEach((input) => {
     setResultHidden();
   });
 });
+
+downloadLink.addEventListener("click", shareResultFile);
 
 languageButton.addEventListener("click", () => {
   setLanguageMenuOpen(languageMenu.hidden);

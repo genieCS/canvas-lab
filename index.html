@@ -15,16 +15,43 @@
             <h1 data-i18n="title">이미지 변환기</h1>
           </div>
           <div class="topbar-actions">
-            <label class="language-select">
-              <span data-i18n="language">언어</span>
-              <select id="languageSelect" aria-label="언어 선택" data-i18n-attr="aria-label:languageSelect">
-                <option value="ko">한국어</option>
-                <option value="en">English</option>
-                <option value="ja">日本語</option>
-                <option value="zh">中文</option>
-                <option value="fr">Français</option>
-              </select>
-            </label>
+            <div class="language-picker" id="languagePicker">
+              <button
+                class="language-button"
+                id="languageButton"
+                type="button"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="언어 선택"
+                data-i18n-attr="aria-label:languageSelect"
+              >
+                <span class="globe-icon" aria-hidden="true">🌐</span>
+                <span class="flag-badge" id="currentFlag" aria-hidden="true">🇰🇷</span>
+                <span id="currentLanguageName">한국어</span>
+              </button>
+              <div class="language-menu" id="languageMenu" role="menu" hidden>
+                <button type="button" role="menuitemradio" data-lang="ko">
+                  <span class="flag-badge" aria-hidden="true">🇰🇷</span>
+                  <span>한국어</span>
+                </button>
+                <button type="button" role="menuitemradio" data-lang="en">
+                  <span class="flag-badge" aria-hidden="true">🇺🇸</span>
+                  <span>English</span>
+                </button>
+                <button type="button" role="menuitemradio" data-lang="ja">
+                  <span class="flag-badge" aria-hidden="true">🇯🇵</span>
+                  <span>日本語</span>
+                </button>
+                <button type="button" role="menuitemradio" data-lang="zh">
+                  <span class="flag-badge" aria-hidden="true">🇨🇳</span>
+                  <span>中文</span>
+                </button>
+                <button type="button" role="menuitemradio" data-lang="fr">
+                  <span class="flag-badge" aria-hidden="true">🇫🇷</span>
+                  <span>Français</span>
+                </button>
+              </div>
+            </div>
             <button class="ghost-button" id="resetButton" type="button" data-i18n="reset">초기화</button>
           </div>
         </div>

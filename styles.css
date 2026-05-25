@@ -67,22 +67,86 @@ a {
   gap: 10px;
 }
 
-.language-select {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 800;
+.language-picker {
+  position: relative;
 }
 
-.language-select select {
+.language-button {
+  display: inline-flex;
   min-height: 42px;
-  padding: 0 34px 0 12px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--field);
   color: var(--ink);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.language-button:hover,
+.language-button[aria-expanded="true"] {
+  border-color: var(--accent);
+}
+
+.globe-icon {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.flag-badge {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(238, 246, 244, 0.16);
+  border-radius: 50%;
+  background: #101820;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.language-menu {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 8px);
+  right: 0;
+  display: grid;
+  min-width: 176px;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0b1117;
+  box-shadow: var(--shadow);
+}
+
+.language-menu[hidden] {
+  display: none;
+}
+
+.language-menu button {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 800;
+  text-align: left;
+}
+
+.language-menu button:hover,
+.language-menu button[aria-checked="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-dark);
 }
 
 .eyebrow,
@@ -424,9 +488,13 @@ h2 {
     flex-direction: column;
   }
 
-  .language-select {
-    align-items: stretch;
-    flex-direction: column;
+  .language-button {
+    justify-content: center;
+  }
+
+  .language-menu {
+    left: 0;
+    right: 0;
   }
 
   .quick-actions,

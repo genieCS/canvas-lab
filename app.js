@@ -6,7 +6,11 @@ const fileSummary = document.querySelector("#fileSummary");
 const widthInput = document.querySelector("#widthInput");
 const heightInput = document.querySelector("#heightInput");
 const lockRatio = document.querySelector("#lockRatio");
-const languageSelect = document.querySelector("#languageSelect");
+const languagePicker = document.querySelector("#languagePicker");
+const languageButton = document.querySelector("#languageButton");
+const languageMenu = document.querySelector("#languageMenu");
+const currentFlag = document.querySelector("#currentFlag");
+const currentLanguageName = document.querySelector("#currentLanguageName");
 const compressionHint = document.querySelector("#compressionHint");
 const convertButton = document.querySelector("#convertButton");
 const resetButton = document.querySelector("#resetButton");
@@ -16,6 +20,7 @@ const downloadLink = document.querySelector("#downloadLink");
 const scaleButtons = document.querySelectorAll("[data-scale]");
 const formatInputs = document.querySelectorAll('input[name="format"]');
 const compressionInputs = document.querySelectorAll('input[name="compression"]');
+const languageMenuItems = document.querySelectorAll("[data-lang]");
 
 let sourceFile = null;
 let sourceImage = null;
@@ -24,7 +29,7 @@ let originalWidth = 0;
 let originalHeight = 0;
 let lastObjectUrl = null;
 let activeDimension = null;
-let currentLang = getInitialLanguage();
+let currentLang = "en";
 
 const translations = {
   ko: {
@@ -204,12 +209,22 @@ const translations = {
   },
 };
 
+const languageMeta = {
+  ko: { flag: "🇰🇷", name: "한국어" },
+  en: { flag: "🇺🇸", name: "English" },
+  ja: { flag: "🇯🇵", name: "日本語" },
+  zh: { flag: "🇨🇳", name: "中文" },
+  fr: { flag: "🇫🇷", name: "Français" },
+};
+
 const formatExtensions = {
   "image/png": "png",
   "image/jpeg": "jpg",
   "image/webp": "webp",
   "image/gif": "gif",
 };
+
+currentLang = getInitialLanguage();
 
 const formatNames = {
   "image/png": "PNG",
@@ -220,6 +235,11 @@ const formatNames = {
 
 function t(key) {
   return translations[currentLang][key] || translations.ko[key] || key;
+}
+
+function setLanguageMenuOpen(isOpen) {
+  languageMenu.hidden = !isOpen;
+  languageButton.setAttribute("aria-expanded", String(isOpen));
 }
 
 function getInitialLanguage() {
@@ -245,7 +265,11 @@ function getInitialLanguage() {
 function applyLanguage() {
   document.documentElement.lang = currentLang;
   document.title = t("pageTitle");
-  languageSelect.value = currentLang;
+  currentFlag.textContent = languageMeta[currentLang].flag;
+  currentLanguageName.textContent = languageMeta[currentLang].name;
+  languageMenuItems.forEach((item) => {
+    item.setAttribute("aria-checked", String(item.dataset.lang === currentLang));
+  });
 
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     element.textContent = t(element.dataset.i18n);
@@ -631,10 +655,29 @@ compressionInputs.forEach((input) => {
   });
 });
 
-languageSelect.addEventListener("change", (event) => {
-  currentLang = event.target.value;
-  localStorage.setItem("canvasLabLanguage", currentLang);
-  applyLanguage();
+languageButton.addEventListener("click", () => {
+  setLanguageMenuOpen(languageMenu.hidden);
+});
+
+languageMenuItems.forEach((item) => {
+  item.addEventListener("click", () => {
+    currentLang = item.dataset.lang;
+    localStorage.setItem("canvasLabLanguage", currentLang);
+    setLanguageMenuOpen(false);
+    applyLanguage();
+  });
+});
+
+document.addEventListener("click", (event) => {
+  if (!languagePicker.contains(event.target)) {
+    setLanguageMenuOpen(false);
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    setLanguageMenuOpen(false);
+  }
 });
 
 scaleButtons.forEach((button) => {

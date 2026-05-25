@@ -159,7 +159,7 @@ function resetApp() {
   convertButton.textContent = "변환하기";
   previewFrame.classList.remove("has-image");
   previewImage.removeAttribute("src");
-  fileSummary.innerHTML = "<span>파일을 선택해 주세요</span>";
+  fileSummary.innerHTML = "<span>이미지 정보</span>";
   setResultHidden();
   updateFormatOptions();
 

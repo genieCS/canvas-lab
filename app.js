@@ -57,6 +57,7 @@ const translations = {
     converting: "변환 중...",
     resultDone: "변환 완료",
     download: "다운로드",
+    noCompressionHint: "압축하지 않고 선택한 크기와 포맷으로만 내보냅니다.",
     pngHint: "PNG는 압축률이 높을수록 색상 수를 줄입니다. 투명도는 유지되지만 색 표현이 단순해질 수 있습니다.",
     gifHint: "GIF는 애니메이션을 유지하며 최적화합니다. 압축률이 높을수록 손실 압축과 색상 수 감소가 강해집니다.",
     lossyHint: "JPEG와 WebP는 압축률이 높을수록 품질을 낮춰 용량을 줄입니다.",
@@ -118,6 +119,7 @@ const translations = {
     converting: "Converting...",
     resultDone: "Conversion complete",
     download: "Download",
+    noCompressionHint: "Export with the selected size and format without extra compression.",
     pngHint: "PNG reduces file size by lowering the color count as compression increases. Transparency is preserved, but colors may look simpler.",
     gifHint: "GIF keeps animation while optimizing. Higher compression increases lossy compression and color reduction.",
     lossyHint: "JPEG and WebP reduce file size by lowering quality as compression increases.",
@@ -179,6 +181,7 @@ const translations = {
     converting: "変換中...",
     resultDone: "変換完了",
     download: "ダウンロード",
+    noCompressionHint: "追加圧縮せず、選択したサイズと形式で書き出します。",
     pngHint: "PNGは圧縮率が高いほど色数を減らして容量を下げます。透明度は維持されますが、色表現が単純になることがあります。",
     gifHint: "GIFはアニメーションを維持したまま最適化します。圧縮率が高いほど非可逆圧縮と色数削減が強くなります。",
     lossyHint: "JPEGとWebPは圧縮率が高いほど品質を下げて容量を減らします。",
@@ -239,6 +242,7 @@ const translations = {
     converting: "转换中...",
     resultDone: "转换完成",
     download: "下载",
+    noCompressionHint: "不额外压缩，仅按所选尺寸和格式导出。",
     pngHint: "PNG 会在压缩率提高时减少颜色数量来降低文件大小。透明度会保留，但颜色表现可能更简单。",
     gifHint: "GIF 会在保留动画的同时进行优化。压缩率越高，有损压缩和颜色减少越强。",
     lossyHint: "JPEG 和 WebP 会在压缩率提高时降低质量来减少文件大小。",
@@ -297,6 +301,7 @@ const translations = {
     converting: "Conversion...",
     resultDone: "Conversion terminée",
     download: "Télécharger",
+    noCompressionHint: "Exporte avec la taille et le format choisis, sans compression supplémentaire.",
     pngHint: "Le PNG réduit la taille du fichier en diminuant le nombre de couleurs quand la compression augmente. La transparence est conservée, mais les couleurs peuvent être simplifiées.",
     gifHint: "Le GIF conserve l’animation tout en l’optimisant. Une compression plus forte augmente la compression avec perte et la réduction des couleurs.",
     lossyHint: "JPEG et WebP réduisent la taille du fichier en baissant la qualité quand la compression augmente.",
@@ -357,6 +362,7 @@ const translations = {
     converting: "Convirtiendo...",
     resultDone: "Conversión completada",
     download: "Descargar",
+    noCompressionHint: "Exporta con el tamaño y formato seleccionados, sin compresión adicional.",
     pngHint: "PNG reduce el tamaño del archivo disminuyendo la cantidad de colores a medida que aumenta la compresión. La transparencia se conserva, pero los colores pueden verse más simples.",
     gifHint: "GIF mantiene la animación mientras optimiza. Una compresión más alta aumenta la compresión con pérdida y la reducción de colores.",
     lossyHint: "JPEG y WebP reducen el tamaño del archivo bajando la calidad a medida que aumenta la compresión.",
@@ -417,6 +423,7 @@ const translations = {
     converting: "Konvertiere...",
     resultDone: "Konvertierung abgeschlossen",
     download: "Herunterladen",
+    noCompressionHint: "Exportiert nur mit der gewählten Größe und dem gewählten Format, ohne zusätzliche Komprimierung.",
     pngHint: "PNG reduziert die Dateigröße, indem bei höherer Komprimierung die Farbanzahl verringert wird. Transparenz bleibt erhalten, Farben können jedoch einfacher wirken.",
     gifHint: "GIF behält die Animation bei und wird optimiert. Höhere Komprimierung verstärkt verlustbehaftete Komprimierung und Farbreduktion.",
     lossyHint: "JPEG und WebP reduzieren die Dateigröße, indem bei höherer Komprimierung die Qualität gesenkt wird.",
@@ -548,7 +555,8 @@ function selectedCompression() {
 }
 
 function selectedQuality() {
-  return (100 - selectedCompression()) / 100;
+  const compression = selectedCompression();
+  return compression > 0 ? (100 - compression) / 100 : 1;
 }
 
 function isGifSource() {
@@ -569,6 +577,11 @@ function updateQualityState() {
   compressionInputs.forEach((input) => {
     input.disabled = !supportsQuality;
   });
+
+  if (selectedCompression() === 0) {
+    compressionHint.textContent = t("noCompressionHint");
+    return;
+  }
 
   if (format === "image/png") {
     compressionHint.textContent = t("pngHint");
@@ -820,7 +833,7 @@ async function convertImage() {
 
   try {
     blob =
-      format === "image/png"
+      format === "image/png" && compression > 0
         ? encodePngFromCanvas(canvas, compression)
         : await canvasToBlob(canvas, format, quality);
   } catch (error) {

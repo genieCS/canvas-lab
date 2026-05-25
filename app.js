@@ -6,6 +6,7 @@ const fileSummary = document.querySelector("#fileSummary");
 const widthInput = document.querySelector("#widthInput");
 const heightInput = document.querySelector("#heightInput");
 const lockRatio = document.querySelector("#lockRatio");
+const languageSelect = document.querySelector("#languageSelect");
 const compressionHint = document.querySelector("#compressionHint");
 const convertButton = document.querySelector("#convertButton");
 const resetButton = document.querySelector("#resetButton");
@@ -23,6 +24,185 @@ let originalWidth = 0;
 let originalHeight = 0;
 let lastObjectUrl = null;
 let activeDimension = null;
+let currentLang = getInitialLanguage();
+
+const translations = {
+  ko: {
+    pageTitle: "Canvas Lab 이미지 변환기",
+    appAria: "이미지 변환 도구",
+    title: "이미지 변환기",
+    language: "언어",
+    languageSelect: "언어 선택",
+    reset: "초기화",
+    uploadAria: "이미지 업로드",
+    dropTitle: "이미지를 끌어오거나 선택",
+    dropSubtitle: "JPEG, PNG, WebP, GIF 등 브라우저가 읽을 수 있는 이미지",
+    previewAlt: "선택한 이미지 미리보기",
+    emptyPreview: "이미지를 올리면 미리보기가 표시됩니다.",
+    settingsAria: "변환 설정",
+    imageInfo: "이미지 정보",
+    pixelSize: "픽셀 사이즈",
+    lockRatio: "비율 고정",
+    width: "너비",
+    height: "높이",
+    original: "원본",
+    formatTitle: "확장자 변환",
+    formatAria: "출력 포맷",
+    compressionTitle: "이미지 압축",
+    compressionAria: "압축률",
+    convert: "변환하기",
+    converting: "변환 중...",
+    resultDone: "변환 완료",
+    download: "다운로드",
+    pngHint: "PNG는 압축률이 높을수록 색상 수를 줄입니다. 투명도는 유지되지만 색 표현이 단순해질 수 있습니다.",
+    gifHint: "GIF는 애니메이션을 유지하며 최적화합니다. 압축률이 높을수록 손실 압축과 색상 수 감소가 강해집니다.",
+    lossyHint: "JPEG와 WebP는 압축률이 높을수록 품질을 낮춰 용량을 줄입니다.",
+    pngLoadError: "PNG 압축 라이브러리를 불러오지 못했습니다.",
+    gifCompressError: "GIF 압축에 실패했습니다.",
+    convertError: "이미지 변환에 실패했습니다.",
+    reduced: "감소",
+  },
+  en: {
+    pageTitle: "Canvas Lab Image Converter",
+    appAria: "Image conversion tool",
+    title: "Image Converter",
+    language: "Language",
+    languageSelect: "Select language",
+    reset: "Reset",
+    uploadAria: "Image upload",
+    dropTitle: "Drop or choose an image",
+    dropSubtitle: "JPEG, PNG, WebP, GIF, and other browser-readable images",
+    previewAlt: "Selected image preview",
+    emptyPreview: "Upload an image to see a preview.",
+    settingsAria: "Conversion settings",
+    imageInfo: "Image info",
+    pixelSize: "Pixel size",
+    lockRatio: "Lock ratio",
+    width: "Width",
+    height: "Height",
+    original: "Original",
+    formatTitle: "Format conversion",
+    formatAria: "Output format",
+    compressionTitle: "Image compression",
+    compressionAria: "Compression ratio",
+    convert: "Convert",
+    converting: "Converting...",
+    resultDone: "Conversion complete",
+    download: "Download",
+    pngHint: "PNG reduces file size by lowering the color count as compression increases. Transparency is preserved, but colors may look simpler.",
+    gifHint: "GIF keeps animation while optimizing. Higher compression increases lossy compression and color reduction.",
+    lossyHint: "JPEG and WebP reduce file size by lowering quality as compression increases.",
+    pngLoadError: "Could not load the PNG compression library.",
+    gifCompressError: "GIF compression failed.",
+    convertError: "Image conversion failed.",
+    reduced: "smaller",
+  },
+  ja: {
+    pageTitle: "Canvas Lab 画像コンバーター",
+    appAria: "画像変換ツール",
+    title: "画像コンバーター",
+    language: "言語",
+    languageSelect: "言語を選択",
+    reset: "リセット",
+    uploadAria: "画像アップロード",
+    dropTitle: "画像をドロップまたは選択",
+    dropSubtitle: "JPEG、PNG、WebP、GIF など、ブラウザで読み込める画像",
+    previewAlt: "選択した画像のプレビュー",
+    emptyPreview: "画像をアップロードするとプレビューが表示されます。",
+    settingsAria: "変換設定",
+    imageInfo: "画像情報",
+    pixelSize: "ピクセルサイズ",
+    lockRatio: "比率を固定",
+    width: "幅",
+    height: "高さ",
+    original: "元のサイズ",
+    formatTitle: "形式変換",
+    formatAria: "出力形式",
+    compressionTitle: "画像圧縮",
+    compressionAria: "圧縮率",
+    convert: "変換",
+    converting: "変換中...",
+    resultDone: "変換完了",
+    download: "ダウンロード",
+    pngHint: "PNGは圧縮率が高いほど色数を減らして容量を下げます。透明度は維持されますが、色表現が単純になることがあります。",
+    gifHint: "GIFはアニメーションを維持したまま最適化します。圧縮率が高いほど非可逆圧縮と色数削減が強くなります。",
+    lossyHint: "JPEGとWebPは圧縮率が高いほど品質を下げて容量を減らします。",
+    pngLoadError: "PNG圧縮ライブラリを読み込めませんでした。",
+    gifCompressError: "GIF圧縮に失敗しました。",
+    convertError: "画像変換に失敗しました。",
+    reduced: "削減",
+  },
+  zh: {
+    pageTitle: "Canvas Lab 图像转换器",
+    appAria: "图像转换工具",
+    title: "图像转换器",
+    language: "语言",
+    languageSelect: "选择语言",
+    reset: "重置",
+    uploadAria: "图像上传",
+    dropTitle: "拖放或选择图像",
+    dropSubtitle: "JPEG、PNG、WebP、GIF 等浏览器可读取的图像",
+    previewAlt: "所选图像预览",
+    emptyPreview: "上传图像后会显示预览。",
+    settingsAria: "转换设置",
+    imageInfo: "图像信息",
+    pixelSize: "像素尺寸",
+    lockRatio: "锁定比例",
+    width: "宽度",
+    height: "高度",
+    original: "原始",
+    formatTitle: "格式转换",
+    formatAria: "输出格式",
+    compressionTitle: "图像压缩",
+    compressionAria: "压缩率",
+    convert: "转换",
+    converting: "转换中...",
+    resultDone: "转换完成",
+    download: "下载",
+    pngHint: "PNG 会在压缩率提高时减少颜色数量来降低文件大小。透明度会保留，但颜色表现可能更简单。",
+    gifHint: "GIF 会在保留动画的同时进行优化。压缩率越高，有损压缩和颜色减少越强。",
+    lossyHint: "JPEG 和 WebP 会在压缩率提高时降低质量来减少文件大小。",
+    pngLoadError: "无法加载 PNG 压缩库。",
+    gifCompressError: "GIF 压缩失败。",
+    convertError: "图像转换失败。",
+    reduced: "减少",
+  },
+  fr: {
+    pageTitle: "Convertisseur d’images Canvas Lab",
+    appAria: "Outil de conversion d’images",
+    title: "Convertisseur d’images",
+    language: "Langue",
+    languageSelect: "Choisir la langue",
+    reset: "Réinitialiser",
+    uploadAria: "Import d’image",
+    dropTitle: "Déposez ou choisissez une image",
+    dropSubtitle: "JPEG, PNG, WebP, GIF et autres images lisibles par le navigateur",
+    previewAlt: "Aperçu de l’image sélectionnée",
+    emptyPreview: "Importez une image pour afficher un aperçu.",
+    settingsAria: "Paramètres de conversion",
+    imageInfo: "Infos image",
+    pixelSize: "Taille en pixels",
+    lockRatio: "Verrouiller le ratio",
+    width: "Largeur",
+    height: "Hauteur",
+    original: "Original",
+    formatTitle: "Conversion de format",
+    formatAria: "Format de sortie",
+    compressionTitle: "Compression d’image",
+    compressionAria: "Taux de compression",
+    convert: "Convertir",
+    converting: "Conversion...",
+    resultDone: "Conversion terminée",
+    download: "Télécharger",
+    pngHint: "Le PNG réduit la taille du fichier en diminuant le nombre de couleurs quand la compression augmente. La transparence est conservée, mais les couleurs peuvent être simplifiées.",
+    gifHint: "Le GIF conserve l’animation tout en l’optimisant. Une compression plus forte augmente la compression avec perte et la réduction des couleurs.",
+    lossyHint: "JPEG et WebP réduisent la taille du fichier en baissant la qualité quand la compression augmente.",
+    pngLoadError: "Impossible de charger la bibliothèque de compression PNG.",
+    gifCompressError: "La compression GIF a échoué.",
+    convertError: "La conversion de l’image a échoué.",
+    reduced: "en moins",
+  },
+};
 
 const formatExtensions = {
   "image/png": "png",
@@ -37,6 +217,55 @@ const formatNames = {
   "image/webp": "WebP",
   "image/gif": "GIF",
 };
+
+function t(key) {
+  return translations[currentLang][key] || translations.ko[key] || key;
+}
+
+function getInitialLanguage() {
+  const saved = localStorage.getItem("canvasLabLanguage");
+  if (saved && translations[saved]) {
+    return saved;
+  }
+
+  const browserLanguage = navigator.language?.toLowerCase() || "";
+  const languageCode = browserLanguage.split("-")[0];
+
+  if (translations[languageCode]) {
+    return languageCode;
+  }
+
+  if (browserLanguage.startsWith("zh")) {
+    return "zh";
+  }
+
+  return "en";
+}
+
+function applyLanguage() {
+  document.documentElement.lang = currentLang;
+  document.title = t("pageTitle");
+  languageSelect.value = currentLang;
+
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    element.textContent = t(element.dataset.i18n);
+  });
+
+  document.querySelectorAll("[data-i18n-attr]").forEach((element) => {
+    element.dataset.i18nAttr.split(",").forEach((pair) => {
+      const [attribute, key] = pair.split(":");
+      element.setAttribute(attribute, t(key));
+    });
+  });
+
+  if (!sourceFile) {
+    renderEmptyFileSummary();
+  } else {
+    renderFileSummary();
+  }
+
+  updateQualityState();
+}
 
 function formatBytes(bytes) {
   if (!Number.isFinite(bytes)) return "-";
@@ -84,18 +313,16 @@ function updateQualityState() {
   });
 
   if (format === "image/png") {
-    compressionHint.textContent =
-      "PNG는 압축률이 높을수록 색상 수를 줄입니다. 투명도는 유지되지만 색 표현이 단순해질 수 있습니다.";
+    compressionHint.textContent = t("pngHint");
     return;
   }
 
   if (format === "image/gif") {
-    compressionHint.textContent =
-      "GIF는 애니메이션을 유지하며 최적화합니다. 압축률이 높을수록 손실 압축과 색상 수 감소가 강해집니다.";
+    compressionHint.textContent = t("gifHint");
     return;
   }
 
-  compressionHint.textContent = "JPEG와 WebP는 압축률이 높을수록 품질을 낮춰 용량을 줄입니다.";
+  compressionHint.textContent = t("lossyHint");
 }
 
 function updateFormatOptions() {
@@ -147,6 +374,17 @@ function setDimensions(width, height) {
   heightInput.value = height;
 }
 
+function renderEmptyFileSummary() {
+  fileSummary.innerHTML = `<span>${t("imageInfo")}</span>`;
+}
+
+function renderFileSummary() {
+  fileSummary.innerHTML = `
+    <strong>${sourceFile.name}</strong>
+    <span>${originalWidth} x ${originalHeight}px · ${formatBytes(sourceFile.size)}</span>
+  `;
+}
+
 function resetApp() {
   sourceFile = null;
   sourceImage = null;
@@ -156,10 +394,10 @@ function resetApp() {
   widthInput.value = "";
   heightInput.value = "";
   convertButton.disabled = true;
-  convertButton.textContent = "변환하기";
+  convertButton.textContent = t("convert");
   previewFrame.classList.remove("has-image");
   previewImage.removeAttribute("src");
-  fileSummary.innerHTML = "<span>이미지 정보</span>";
+  renderEmptyFileSummary();
   setResultHidden();
   updateFormatOptions();
 
@@ -191,10 +429,7 @@ async function loadFile(file) {
   previewImage.src = sourceUrl;
   previewFrame.classList.add("has-image");
   convertButton.disabled = false;
-  fileSummary.innerHTML = `
-    <strong>${file.name}</strong>
-    <span>${originalWidth} x ${originalHeight}px · ${formatBytes(file.size)}</span>
-  `;
+  renderFileSummary();
   updateFormatOptions();
 }
 
@@ -227,7 +462,7 @@ function compressGif({ targetWidth, targetHeight, quality }) {
 
     worker.addEventListener("error", (event) => {
       worker.terminate();
-      reject(new Error(event.message || "GIF 압축에 실패했습니다."));
+      reject(new Error(event.message || t("gifCompressError")));
     });
 
     sourceFile.arrayBuffer().then((fileBuffer) => {
@@ -258,7 +493,7 @@ function getPngColorCount(compression) {
 
 function encodePngFromCanvas(canvas, compression) {
   if (!globalThis.UPNG) {
-    throw new Error("PNG 압축 라이브러리를 불러오지 못했습니다.");
+    throw new Error(t("pngLoadError"));
   }
 
   const context = canvas.getContext("2d");
@@ -279,7 +514,7 @@ async function convertImage() {
   const quality = selectedQuality();
 
   convertButton.disabled = true;
-  convertButton.textContent = "변환 중...";
+  convertButton.textContent = t("converting");
   setResultHidden();
 
   if (format === "image/gif") {
@@ -287,10 +522,10 @@ async function convertImage() {
       const blob = await compressGif({ targetWidth, targetHeight, quality });
       showResult(blob, format, targetWidth, targetHeight);
     } catch (error) {
-      showError(error instanceof Error ? error.message : "GIF 압축에 실패했습니다.");
+      showError(error instanceof Error ? error.message : t("gifCompressError"));
     } finally {
       convertButton.disabled = false;
-      convertButton.textContent = "변환하기";
+      convertButton.textContent = t("convert");
     }
     return;
   }
@@ -318,21 +553,21 @@ async function convertImage() {
         ? encodePngFromCanvas(canvas, compression)
         : await canvasToBlob(canvas, format, quality);
   } catch (error) {
-    showError(error instanceof Error ? error.message : "이미지 변환에 실패했습니다.");
+    showError(error instanceof Error ? error.message : t("convertError"));
     convertButton.disabled = false;
-    convertButton.textContent = "변환하기";
+    convertButton.textContent = t("convert");
     return;
   }
   if (!blob) {
     convertButton.disabled = false;
-    convertButton.textContent = "변환하기";
+    convertButton.textContent = t("convert");
     return;
   }
 
   showResult(blob, format, targetWidth, targetHeight);
 
   convertButton.disabled = false;
-  convertButton.textContent = "변환하기";
+  convertButton.textContent = t("convert");
 }
 
 function showResult(blob, format, targetWidth, targetHeight) {
@@ -342,7 +577,7 @@ function showResult(blob, format, targetWidth, targetHeight) {
   downloadLink.hidden = false;
 
   const savedRatio = sourceFile.size ? Math.round((1 - blob.size / sourceFile.size) * 100) : 0;
-  const savedText = savedRatio > 0 ? ` · ${savedRatio}% 감소` : "";
+  const savedText = savedRatio > 0 ? ` · ${savedRatio}% ${t("reduced")}` : "";
   resultSummary.textContent = `${formatNames[format]} · ${targetWidth} x ${targetHeight}px · ${formatBytes(blob.size)}${savedText}`;
   resultPanel.hidden = false;
 }
@@ -396,6 +631,12 @@ compressionInputs.forEach((input) => {
   });
 });
 
+languageSelect.addEventListener("change", (event) => {
+  currentLang = event.target.value;
+  localStorage.setItem("canvasLabLanguage", currentLang);
+  applyLanguage();
+});
+
 scaleButtons.forEach((button) => {
   button.addEventListener("click", () => {
     if (!originalWidth || !originalHeight) return;
@@ -410,5 +651,5 @@ scaleButtons.forEach((button) => {
 
 convertButton.addEventListener("click", convertImage);
 resetButton.addEventListener("click", resetApp);
-updateQualityState();
+applyLanguage();
 updateFormatOptions();

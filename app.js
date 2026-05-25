@@ -69,8 +69,6 @@ const translations = {
     trustTitle: "이미지는 서버로 업로드되지 않습니다.",
     trustCopy:
       "Canvas Lab은 선택한 이미지를 사용자의 브라우저 안에서 처리합니다. 리사이즈, 포맷 변환, 압축 과정에서 원본 이미지 파일을 별도 서버로 전송하거나 저장하지 않습니다.",
-    privacyLink: "개인정보 처리방침",
-    businessLink: "사업자 정보",
     privacyTitle: "개인정보 처리방침",
     privacyLocal:
       "Canvas Lab은 이미지 변환 기능 제공을 위해 사용자가 선택한 이미지 파일을 서버로 업로드하거나 저장하지 않습니다. 이미지 처리는 브라우저 내에서 수행됩니다.",
@@ -132,8 +130,6 @@ const translations = {
     trustTitle: "Your images are not uploaded to a server.",
     trustCopy:
       "Canvas Lab processes selected images inside your browser. During resizing, format conversion, and compression, original image files are not sent to or stored on a separate server.",
-    privacyLink: "Privacy Policy",
-    businessLink: "Business Info",
     privacyTitle: "Privacy Policy",
     privacyLocal:
       "Canvas Lab does not upload or store image files selected by users for image conversion. Image processing happens locally in the browser.",
@@ -195,8 +191,6 @@ const translations = {
     trustTitle: "画像はサーバーにアップロードされません。",
     trustCopy:
       "Canvas Labは選択した画像をユーザーのブラウザ内で処理します。リサイズ、形式変換、圧縮の過程で元画像ファイルを別サーバーへ送信または保存しません。",
-    privacyLink: "プライバシーポリシー",
-    businessLink: "事業者情報",
     privacyTitle: "プライバシーポリシー",
     privacyLocal:
       "Canvas Labは画像変換機能の提供にあたり、ユーザーが選択した画像ファイルをサーバーへアップロードまたは保存しません。画像処理はブラウザ内で行われます。",
@@ -256,8 +250,6 @@ const translations = {
     trustEyebrow: "Private by design",
     trustTitle: "图像不会上传到服务器。",
     trustCopy: "Canvas Lab 会在用户的浏览器中处理所选图像。调整尺寸、格式转换和压缩过程中，原始图像文件不会发送到或存储在单独服务器上。",
-    privacyLink: "隐私政策",
-    businessLink: "商家信息",
     privacyTitle: "隐私政策",
     privacyLocal: "Canvas Lab 不会为了图像转换功能上传或存储用户选择的图像文件。图像处理在浏览器内完成。",
     privacyAds: "本网站可能使用 Google AdSense。Google 及其合作伙伴可能会使用 Cookie、IP 地址、设备标识符等信息进行广告投放和衡量。",
@@ -316,8 +308,6 @@ const translations = {
     trustTitle: "Vos images ne sont pas téléversées sur un serveur.",
     trustCopy:
       "Canvas Lab traite les images sélectionnées dans votre navigateur. Lors du redimensionnement, de la conversion et de la compression, les fichiers originaux ne sont pas envoyés ni stockés sur un serveur séparé.",
-    privacyLink: "Politique de confidentialité",
-    businessLink: "Infos entreprise",
     privacyTitle: "Politique de confidentialité",
     privacyLocal:
       "Canvas Lab ne téléverse ni ne stocke les images sélectionnées par les utilisateurs pour la conversion. Le traitement des images s’effectue localement dans le navigateur.",
@@ -378,8 +368,6 @@ const translations = {
     trustTitle: "Tus imágenes no se suben a un servidor.",
     trustCopy:
       "Canvas Lab procesa las imágenes seleccionadas dentro de tu navegador. Durante el cambio de tamaño, la conversión y la compresión, los archivos originales no se envían ni se almacenan en un servidor separado.",
-    privacyLink: "Política de privacidad",
-    businessLink: "Información comercial",
     privacyTitle: "Política de privacidad",
     privacyLocal:
       "Canvas Lab no sube ni almacena las imágenes seleccionadas por los usuarios para la conversión. El procesamiento se realiza localmente en el navegador.",
@@ -440,8 +428,6 @@ const translations = {
     trustTitle: "Ihre Bilder werden nicht auf einen Server hochgeladen.",
     trustCopy:
       "Canvas Lab verarbeitet ausgewählte Bilder direkt im Browser. Beim Ändern der Größe, Konvertieren und Komprimieren werden Originaldateien nicht an einen separaten Server gesendet oder dort gespeichert.",
-    privacyLink: "Datenschutzerklärung",
-    businessLink: "Unternehmensinfo",
     privacyTitle: "Datenschutzerklärung",
     privacyLocal:
       "Canvas Lab lädt oder speichert keine von Nutzern ausgewählten Bilddateien für die Konvertierung. Die Bildverarbeitung erfolgt lokal im Browser.",

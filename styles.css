@@ -88,26 +88,14 @@ a {
   padding: 18px 24px;
 }
 
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.footer-links a {
-  color: var(--accent-dark);
-  font-size: 14px;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.footer-links a:hover {
-  text-decoration: underline;
-}
-
 .policy-panel {
   border-top: 1px solid var(--line);
   padding-top: 12px;
+}
+
+.site-footer .policy-panel:first-child {
+  border-top: 0;
+  padding-top: 0;
 }
 
 .policy-panel summary {

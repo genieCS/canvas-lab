@@ -1,0 +1,14 @@
+{
+  "name": "canvas-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "python3 -m http.server 4173 --directory dist"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.5",
+    "terser": "^5.40.0"
+  }
+}

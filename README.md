@@ -6,7 +6,7 @@
 
 - 이미지 픽셀 사이즈 변경
 - PNG, JPEG, WebP 확장자 변환
-- JPEG/WebP 품질 조절을 통한 이미지 압축
+- PNG, JPEG, WebP 품질 조절을 통한 이미지 압축
 - gifsicle-wasm 기반 GIF → GIF 압축. 낮은 품질값에서는 손실 압축과 색상 수 감소를 함께 적용합니다.
 - 변환 결과 미리보기 및 다운로드
 
@@ -24,6 +24,7 @@ python3 -m http.server 4173
 
 ## 외부 런타임
 
+PNG 최적화에는 `vendor/`에 포함된 `UPNG.js`를 사용합니다.
 GIF 최적화에는 `vendor/`에 포함된 `gifsicle-wasm`을 사용합니다.
 
 ## 배포 빌드

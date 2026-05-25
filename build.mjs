@@ -15,7 +15,7 @@ async function minifyJavaScript(source, outputPath) {
     },
     bundle: true,
     write: false,
-    format: "iife",
+    format: "esm",
     target: "es2020",
     legalComments: "none",
   });

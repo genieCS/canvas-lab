@@ -70,8 +70,16 @@ function setSelectedFormat(format) {
 
 function updateQualityState() {
   const format = selectedFormat();
-  const supportsQuality = format === "image/jpeg" || format === "image/webp" || format === "image/gif";
+  const supportsQuality =
+    format === "image/png" || format === "image/jpeg" || format === "image/webp" || format === "image/gif";
   qualityInput.disabled = !supportsQuality;
+
+  if (format === "image/png") {
+    qualityValue.textContent = `${qualityInput.value}%`;
+    compressionHint.textContent =
+      "PNG는 품질을 낮추면 색상 수를 줄여 용량을 줄입니다. 투명도는 유지되지만 색 표현이 단순해질 수 있습니다.";
+    return;
+  }
 
   if (format === "image/gif") {
     qualityValue.textContent = `${qualityInput.value}%`;
@@ -81,10 +89,7 @@ function updateQualityState() {
   }
 
   qualityValue.textContent = supportsQuality ? `${qualityInput.value}%` : "자동";
-  compressionHint.textContent =
-    format === "image/png"
-      ? "PNG는 품질 슬라이더 대신 픽셀 사이즈 변경과 브라우저 기본 무손실 인코딩으로 저장됩니다."
-      : "JPEG와 WebP는 품질을 낮추면 용량이 줄어듭니다.";
+  compressionHint.textContent = "JPEG와 WebP는 품질을 낮추면 용량이 줄어듭니다.";
 }
 
 function updateFormatOptions() {
@@ -233,6 +238,45 @@ function compressGif({ targetWidth, targetHeight, quality }) {
   });
 }
 
+function getPngColorCount(quality) {
+  const normalizedQuality = Math.max(10, Math.min(100, Math.round(quality * 100)));
+
+  if (normalizedQuality >= 96) {
+    return 0;
+  }
+
+  if (normalizedQuality <= 20) {
+    return 32;
+  }
+
+  if (normalizedQuality <= 35) {
+    return 64;
+  }
+
+  if (normalizedQuality <= 55) {
+    return 128;
+  }
+
+  if (normalizedQuality <= 75) {
+    return 192;
+  }
+
+  return 256;
+}
+
+function encodePngFromCanvas(canvas, quality) {
+  if (!globalThis.UPNG) {
+    throw new Error("PNG 압축 라이브러리를 불러오지 못했습니다.");
+  }
+
+  const context = canvas.getContext("2d");
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  const colorCount = getPngColorCount(quality);
+  const pngBuffer = globalThis.UPNG.encode([imageData.data.buffer], canvas.width, canvas.height, colorCount);
+
+  return new Blob([pngBuffer], { type: "image/png" });
+}
+
 async function convertImage() {
   if (!sourceImage || !sourceFile) return;
 
@@ -273,7 +317,16 @@ async function convertImage() {
 
   context.drawImage(sourceImage, 0, 0, targetWidth, targetHeight);
 
-  const blob = await canvasToBlob(canvas, format, quality);
+  let blob;
+
+  try {
+    blob = format === "image/png" ? encodePngFromCanvas(canvas, quality) : await canvasToBlob(canvas, format, quality);
+  } catch (error) {
+    showError(error instanceof Error ? error.message : "이미지 변환에 실패했습니다.");
+    convertButton.disabled = false;
+    convertButton.textContent = "변환하기";
+    return;
+  }
   if (!blob) {
     convertButton.disabled = false;
     convertButton.textContent = "변환하기";

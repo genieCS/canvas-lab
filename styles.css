@@ -227,7 +227,8 @@ h2 {
 }
 
 .switch,
-.format-options label {
+.format-options label,
+.compression-options label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -260,7 +261,8 @@ h2 {
 }
 
 .quick-actions,
-.format-options {
+.format-options,
+.compression-options {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
@@ -268,6 +270,10 @@ h2 {
 
 .format-options {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.compression-options {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .quick-actions button,
@@ -290,7 +296,8 @@ h2 {
   color: var(--accent-dark);
 }
 
-.format-options label {
+.format-options label,
+.compression-options label {
   min-height: 44px;
   justify-content: center;
   border: 1px solid var(--line);
@@ -298,14 +305,17 @@ h2 {
   background: #fbfdfc;
 }
 
-.format-options label:has(input:disabled) {
+.format-options label:has(input:disabled),
+.compression-options label:has(input:disabled) {
   opacity: 0.48;
   cursor: not-allowed;
 }
 
-input[type="range"] {
-  width: 100%;
-  accent-color: var(--accent);
+.format-options label:has(input:checked),
+.compression-options label:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-dark);
 }
 
 .hint {
@@ -381,7 +391,8 @@ input[type="range"] {
   }
 
   .quick-actions,
-  .format-options {
+  .format-options,
+  .compression-options {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

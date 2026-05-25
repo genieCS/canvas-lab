@@ -74,11 +74,12 @@
             </div>
 
             <div class="control-group">
-              <div class="group-header">
-                <h2>이미지 압축</h2>
-                <output id="qualityValue" for="qualityInput">82%</output>
+              <h2>이미지 압축</h2>
+              <div class="compression-options" role="radiogroup" aria-label="압축률">
+                <label><input type="radio" name="compression" value="25" /> 25%</label>
+                <label><input type="radio" name="compression" value="50" checked /> 50%</label>
+                <label><input type="radio" name="compression" value="75" /> 75%</label>
               </div>
-              <input id="qualityInput" type="range" min="10" max="100" value="82" />
               <p class="hint" id="compressionHint">
                 JPEG와 WebP는 품질을 낮추면 용량이 줄어듭니다. GIF는 gifsicle-wasm으로 애니메이션을 유지한 채 최적화합니다.
               </p>

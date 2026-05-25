@@ -6,8 +6,6 @@ const fileSummary = document.querySelector("#fileSummary");
 const widthInput = document.querySelector("#widthInput");
 const heightInput = document.querySelector("#heightInput");
 const lockRatio = document.querySelector("#lockRatio");
-const qualityInput = document.querySelector("#qualityInput");
-const qualityValue = document.querySelector("#qualityValue");
 const compressionHint = document.querySelector("#compressionHint");
 const convertButton = document.querySelector("#convertButton");
 const resetButton = document.querySelector("#resetButton");
@@ -16,6 +14,7 @@ const resultSummary = document.querySelector("#resultSummary");
 const downloadLink = document.querySelector("#downloadLink");
 const scaleButtons = document.querySelectorAll("[data-scale]");
 const formatInputs = document.querySelectorAll('input[name="format"]');
+const compressionInputs = document.querySelectorAll('input[name="compression"]');
 
 let sourceFile = null;
 let sourceImage = null;
@@ -57,6 +56,14 @@ function selectedFormat() {
   return document.querySelector('input[name="format"]:checked').value;
 }
 
+function selectedCompression() {
+  return Number(document.querySelector('input[name="compression"]:checked').value);
+}
+
+function selectedQuality() {
+  return (100 - selectedCompression()) / 100;
+}
+
 function isGifSource() {
   return sourceFile?.type === "image/gif" || /\.gif$/i.test(sourceFile?.name || "");
 }
@@ -72,24 +79,23 @@ function updateQualityState() {
   const format = selectedFormat();
   const supportsQuality =
     format === "image/png" || format === "image/jpeg" || format === "image/webp" || format === "image/gif";
-  qualityInput.disabled = !supportsQuality;
+  compressionInputs.forEach((input) => {
+    input.disabled = !supportsQuality;
+  });
 
   if (format === "image/png") {
-    qualityValue.textContent = `${qualityInput.value}%`;
     compressionHint.textContent =
-      "PNG는 품질을 낮추면 색상 수를 줄여 용량을 줄입니다. 투명도는 유지되지만 색 표현이 단순해질 수 있습니다.";
+      "PNG는 압축률이 높을수록 색상 수를 줄입니다. 투명도는 유지되지만 색 표현이 단순해질 수 있습니다.";
     return;
   }
 
   if (format === "image/gif") {
-    qualityValue.textContent = `${qualityInput.value}%`;
     compressionHint.textContent =
-      "GIF는 gifsicle-wasm으로 애니메이션을 유지하며 최적화합니다. 품질을 낮추면 손실 압축과 색상 수 감소가 함께 적용됩니다.";
+      "GIF는 애니메이션을 유지하며 최적화합니다. 압축률이 높을수록 손실 압축과 색상 수 감소가 강해집니다.";
     return;
   }
 
-  qualityValue.textContent = supportsQuality ? `${qualityInput.value}%` : "자동";
-  compressionHint.textContent = "JPEG와 WebP는 품질을 낮추면 용량이 줄어듭니다.";
+  compressionHint.textContent = "JPEG와 WebP는 압축률이 높을수록 품질을 낮춰 용량을 줄입니다.";
 }
 
 function updateFormatOptions() {
@@ -238,40 +244,26 @@ function compressGif({ targetWidth, targetHeight, quality }) {
   });
 }
 
-function getPngColorCount(quality) {
-  const normalizedQuality = Math.max(10, Math.min(100, Math.round(quality * 100)));
-
-  if (normalizedQuality >= 96) {
-    return 0;
-  }
-
-  if (normalizedQuality <= 20) {
-    return 32;
-  }
-
-  if (normalizedQuality <= 35) {
+function getPngColorCount(compression) {
+  if (compression >= 75) {
     return 64;
   }
 
-  if (normalizedQuality <= 55) {
+  if (compression >= 50) {
     return 128;
-  }
-
-  if (normalizedQuality <= 75) {
-    return 192;
   }
 
   return 256;
 }
 
-function encodePngFromCanvas(canvas, quality) {
+function encodePngFromCanvas(canvas, compression) {
   if (!globalThis.UPNG) {
     throw new Error("PNG 압축 라이브러리를 불러오지 못했습니다.");
   }
 
   const context = canvas.getContext("2d");
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-  const colorCount = getPngColorCount(quality);
+  const colorCount = getPngColorCount(compression);
   const pngBuffer = globalThis.UPNG.encode([imageData.data.buffer], canvas.width, canvas.height, colorCount);
 
   return new Blob([pngBuffer], { type: "image/png" });
@@ -283,7 +275,8 @@ async function convertImage() {
   const targetWidth = Math.max(1, Math.round(Number(widthInput.value)));
   const targetHeight = Math.max(1, Math.round(Number(heightInput.value)));
   const format = selectedFormat();
-  const quality = Number(qualityInput.value) / 100;
+  const compression = selectedCompression();
+  const quality = selectedQuality();
 
   convertButton.disabled = true;
   convertButton.textContent = "변환 중...";
@@ -320,7 +313,10 @@ async function convertImage() {
   let blob;
 
   try {
-    blob = format === "image/png" ? encodePngFromCanvas(canvas, quality) : await canvasToBlob(canvas, format, quality);
+    blob =
+      format === "image/png"
+        ? encodePngFromCanvas(canvas, compression)
+        : await canvasToBlob(canvas, format, quality);
   } catch (error) {
     showError(error instanceof Error ? error.message : "이미지 변환에 실패했습니다.");
     convertButton.disabled = false;
@@ -386,12 +382,14 @@ heightInput.addEventListener("input", () => {
   setResultHidden();
 });
 
-qualityInput.addEventListener("input", () => {
-  updateQualityState();
-  setResultHidden();
+formatInputs.forEach((input) => {
+  input.addEventListener("change", () => {
+    updateQualityState();
+    setResultHidden();
+  });
 });
 
-formatInputs.forEach((input) => {
+compressionInputs.forEach((input) => {
   input.addEventListener("change", () => {
     updateQualityState();
     setResultHidden();

@@ -76,7 +76,7 @@ function updateQualityState() {
   if (format === "image/gif") {
     qualityValue.textContent = `${qualityInput.value}%`;
     compressionHint.textContent =
-      "GIF는 gifsicle-wasm으로 애니메이션을 유지하며 최적화합니다. 품질을 낮추면 손실 압축 강도가 올라갑니다.";
+      "GIF는 gifsicle-wasm으로 애니메이션을 유지하며 최적화합니다. 품질을 낮추면 손실 압축과 색상 수 감소가 함께 적용됩니다.";
     return;
   }
 

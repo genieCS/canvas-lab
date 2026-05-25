@@ -36,6 +36,29 @@ function runGifsicle(mod, args) {
   }
 }
 
+function getGifCompressionOptions(quality) {
+  const normalizedQuality = Math.max(10, Math.min(100, quality));
+  const lossy = Math.max(0, Math.round((100 - normalizedQuality) * 4));
+
+  if (normalizedQuality <= 20) {
+    return { lossy, colors: 32 };
+  }
+
+  if (normalizedQuality <= 35) {
+    return { lossy, colors: 64 };
+  }
+
+  if (normalizedQuality <= 55) {
+    return { lossy, colors: 128 };
+  }
+
+  if (normalizedQuality <= 75) {
+    return { lossy, colors: 192 };
+  }
+
+  return { lossy, colors: null };
+}
+
 self.addEventListener("message", async (event) => {
   const { fileBuffer, width, height, quality } = event.data;
   const inputPath = "/input.gif";
@@ -55,10 +78,14 @@ self.addEventListener("message", async (event) => {
     mod.FS.writeFile(inputPath, new Uint8Array(fileBuffer));
 
     const args = ["gifsicle", "-O3", "--careful"];
-    const lossy = Math.max(0, Math.round((100 - quality) * 2.4));
+    const { lossy, colors } = getGifCompressionOptions(quality);
 
     if (lossy > 0) {
       args.push(`--lossy=${lossy}`);
+    }
+
+    if (colors) {
+      args.push(`--colors=${colors}`);
     }
 
     if (width > 0 && height > 0) {

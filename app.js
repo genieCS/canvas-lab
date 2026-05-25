@@ -885,7 +885,15 @@ function canShareResultFile(file) {
   return Boolean(navigator.share && (!navigator.canShare || navigator.canShare({ files: [file] })));
 }
 
+function isMobileDevice() {
+  return (
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.maxTouchPoints > 1 && matchMedia("(pointer: coarse)").matches)
+  );
+}
+
 async function shareResultFile(event) {
+  if (!isMobileDevice()) return;
   if (!lastResultBlob || !lastResultFileName) return;
 
   const file = new File([lastResultBlob], lastResultFileName, { type: lastResultBlob.type || "image/png" });

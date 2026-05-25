@@ -85,5 +85,6 @@ await cp("robots.txt", `${distDir}/robots.txt`);
 await cp("sitemap.xml", `${distDir}/sitemap.xml`);
 await cp("favicon.svg", `${distDir}/favicon.svg`);
 await cp("ads.txt", `${distDir}/ads.txt`);
+await cp("google66415fa6343e74cc.html", `${distDir}/google66415fa6343e74cc.html`);
 
 console.log("Built dist/");

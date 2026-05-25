@@ -9,8 +9,6 @@ const lockRatio = document.querySelector("#lockRatio");
 const languagePicker = document.querySelector("#languagePicker");
 const languageButton = document.querySelector("#languageButton");
 const languageMenu = document.querySelector("#languageMenu");
-const currentFlag = document.querySelector("#currentFlag");
-const currentLanguageName = document.querySelector("#currentLanguageName");
 const compressionHint = document.querySelector("#compressionHint");
 const convertButton = document.querySelector("#convertButton");
 const resetButton = document.querySelector("#resetButton");
@@ -50,7 +48,6 @@ const translations = {
     lockRatio: "비율 고정",
     width: "너비",
     height: "높이",
-    original: "원본",
     formatTitle: "확장자 변환",
     formatAria: "출력 포맷",
     compressionTitle: "이미지 압축",
@@ -85,7 +82,6 @@ const translations = {
     lockRatio: "Lock ratio",
     width: "Width",
     height: "Height",
-    original: "Original",
     formatTitle: "Format conversion",
     formatAria: "Output format",
     compressionTitle: "Image compression",
@@ -120,7 +116,6 @@ const translations = {
     lockRatio: "比率を固定",
     width: "幅",
     height: "高さ",
-    original: "元のサイズ",
     formatTitle: "形式変換",
     formatAria: "出力形式",
     compressionTitle: "画像圧縮",
@@ -155,7 +150,6 @@ const translations = {
     lockRatio: "锁定比例",
     width: "宽度",
     height: "高度",
-    original: "原始",
     formatTitle: "格式转换",
     formatAria: "输出格式",
     compressionTitle: "图像压缩",
@@ -190,7 +184,6 @@ const translations = {
     lockRatio: "Verrouiller le ratio",
     width: "Largeur",
     height: "Hauteur",
-    original: "Original",
     formatTitle: "Conversion de format",
     formatAria: "Format de sortie",
     compressionTitle: "Compression d’image",
@@ -207,14 +200,74 @@ const translations = {
     convertError: "La conversion de l’image a échoué.",
     reduced: "en moins",
   },
-};
-
-const languageMeta = {
-  ko: { flag: "🇰🇷", name: "한국어" },
-  en: { flag: "🇺🇸", name: "English" },
-  ja: { flag: "🇯🇵", name: "日本語" },
-  zh: { flag: "🇨🇳", name: "中文" },
-  fr: { flag: "🇫🇷", name: "Français" },
+  es: {
+    pageTitle: "Convertidor de imágenes Canvas Lab",
+    appAria: "Herramienta de conversión de imágenes",
+    title: "Convertidor de imágenes",
+    language: "Idioma",
+    languageSelect: "Seleccionar idioma",
+    reset: "Restablecer",
+    uploadAria: "Subida de imagen",
+    dropTitle: "Arrastra o elige una imagen",
+    dropSubtitle: "JPEG, PNG, WebP, GIF y otras imágenes compatibles con el navegador",
+    previewAlt: "Vista previa de la imagen seleccionada",
+    emptyPreview: "Sube una imagen para ver la vista previa.",
+    settingsAria: "Ajustes de conversión",
+    imageInfo: "Información de la imagen",
+    pixelSize: "Tamaño en píxeles",
+    lockRatio: "Bloquear proporción",
+    width: "Ancho",
+    height: "Alto",
+    formatTitle: "Conversión de formato",
+    formatAria: "Formato de salida",
+    compressionTitle: "Compresión de imagen",
+    compressionAria: "Nivel de compresión",
+    convert: "Convertir",
+    converting: "Convirtiendo...",
+    resultDone: "Conversión completada",
+    download: "Descargar",
+    pngHint: "PNG reduce el tamaño del archivo disminuyendo la cantidad de colores a medida que aumenta la compresión. La transparencia se conserva, pero los colores pueden verse más simples.",
+    gifHint: "GIF mantiene la animación mientras optimiza. Una compresión más alta aumenta la compresión con pérdida y la reducción de colores.",
+    lossyHint: "JPEG y WebP reducen el tamaño del archivo bajando la calidad a medida que aumenta la compresión.",
+    pngLoadError: "No se pudo cargar la biblioteca de compresión PNG.",
+    gifCompressError: "La compresión GIF falló.",
+    convertError: "La conversión de la imagen falló.",
+    reduced: "menos",
+  },
+  de: {
+    pageTitle: "Canvas Lab Bildkonverter",
+    appAria: "Werkzeug zur Bildkonvertierung",
+    title: "Bildkonverter",
+    language: "Sprache",
+    languageSelect: "Sprache auswählen",
+    reset: "Zurücksetzen",
+    uploadAria: "Bild hochladen",
+    dropTitle: "Bild ablegen oder auswählen",
+    dropSubtitle: "JPEG, PNG, WebP, GIF und andere im Browser lesbare Bilder",
+    previewAlt: "Vorschau des ausgewählten Bildes",
+    emptyPreview: "Lade ein Bild hoch, um eine Vorschau zu sehen.",
+    settingsAria: "Konvertierungseinstellungen",
+    imageInfo: "Bildinformationen",
+    pixelSize: "Pixelgröße",
+    lockRatio: "Seitenverhältnis sperren",
+    width: "Breite",
+    height: "Höhe",
+    formatTitle: "Format konvertieren",
+    formatAria: "Ausgabeformat",
+    compressionTitle: "Bildkomprimierung",
+    compressionAria: "Komprimierungsrate",
+    convert: "Konvertieren",
+    converting: "Konvertiere...",
+    resultDone: "Konvertierung abgeschlossen",
+    download: "Herunterladen",
+    pngHint: "PNG reduziert die Dateigröße, indem bei höherer Komprimierung die Farbanzahl verringert wird. Transparenz bleibt erhalten, Farben können jedoch einfacher wirken.",
+    gifHint: "GIF behält die Animation bei und wird optimiert. Höhere Komprimierung verstärkt verlustbehaftete Komprimierung und Farbreduktion.",
+    lossyHint: "JPEG und WebP reduzieren die Dateigröße, indem bei höherer Komprimierung die Qualität gesenkt wird.",
+    pngLoadError: "Die PNG-Komprimierungsbibliothek konnte nicht geladen werden.",
+    gifCompressError: "GIF-Komprimierung fehlgeschlagen.",
+    convertError: "Bildkonvertierung fehlgeschlagen.",
+    reduced: "kleiner",
+  },
 };
 
 const formatExtensions = {
@@ -265,8 +318,6 @@ function getInitialLanguage() {
 function applyLanguage() {
   document.documentElement.lang = currentLang;
   document.title = t("pageTitle");
-  currentFlag.textContent = languageMeta[currentLang].flag;
-  currentLanguageName.textContent = languageMeta[currentLang].name;
   languageMenuItems.forEach((item) => {
     item.setAttribute("aria-checked", String(item.dataset.lang === currentLang));
   });

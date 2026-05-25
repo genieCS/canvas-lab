@@ -26,8 +26,6 @@
                 data-i18n-attr="aria-label:languageSelect"
               >
                 <span class="globe-icon" aria-hidden="true">🌐</span>
-                <span class="flag-badge" id="currentFlag" aria-hidden="true">🇰🇷</span>
-                <span id="currentLanguageName">한국어</span>
               </button>
               <div class="language-menu" id="languageMenu" role="menu" hidden>
                 <button type="button" role="menuitemradio" data-lang="ko">
@@ -49,6 +47,14 @@
                 <button type="button" role="menuitemradio" data-lang="fr">
                   <span class="flag-badge" aria-hidden="true">🇫🇷</span>
                   <span>Français</span>
+                </button>
+                <button type="button" role="menuitemradio" data-lang="es">
+                  <span class="flag-badge" aria-hidden="true">🇪🇸</span>
+                  <span>Español</span>
+                </button>
+                <button type="button" role="menuitemradio" data-lang="de">
+                  <span class="flag-badge" aria-hidden="true">🇩🇪</span>
+                  <span>Deutsch</span>
                 </button>
               </div>
             </div>
@@ -97,7 +103,7 @@
               <div class="quick-actions">
                 <button data-scale="0.25" type="button">25%</button>
                 <button data-scale="0.5" type="button">50%</button>
-                <button data-scale="1" type="button" data-i18n="original">원본</button>
+                <button data-scale="1" type="button">1x</button>
                 <button data-scale="2" type="button">2x</button>
               </div>
             </div>
@@ -115,9 +121,9 @@
             <div class="control-group">
               <h2 data-i18n="compressionTitle">이미지 압축</h2>
               <div class="compression-options" role="radiogroup" aria-label="압축률" data-i18n-attr="aria-label:compressionAria">
-                <label><input type="radio" name="compression" value="25" /> 25%</label>
-                <label><input type="radio" name="compression" value="50" checked /> 50%</label>
-                <label><input type="radio" name="compression" value="75" /> 75%</label>
+                <label><input type="radio" name="compression" value="25" /><span>25%</span></label>
+                <label><input type="radio" name="compression" value="50" checked /><span>50%</span></label>
+                <label><input type="radio" name="compression" value="75" /><span>75%</span></label>
               </div>
               <p class="hint" id="compressionHint">
                 JPEG와 WebP는 품질을 낮추면 용량이 줄어듭니다. GIF는 gifsicle-wasm으로 애니메이션을 유지한 채 최적화합니다.

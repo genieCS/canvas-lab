@@ -18,6 +18,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -224,6 +228,7 @@ h2 {
 }
 
 .drop-icon {
+  position: relative;
   display: grid;
   width: 40px;
   height: 40px;
@@ -231,8 +236,25 @@ h2 {
   border-radius: 50%;
   background: var(--accent);
   color: #04100d;
-  font-size: 28px;
+  font-size: 0;
   line-height: 1;
+}
+
+.drop-icon::before,
+.drop-icon::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 3px;
+  border-radius: 999px;
+  background: #06100a;
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.drop-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
 }
 
 .drop-zone small,

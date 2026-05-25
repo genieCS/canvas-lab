@@ -28,6 +28,7 @@ let originalHeight = 0;
 let lastObjectUrl = null;
 let activeDimension = null;
 let currentLang = "en";
+let conversionToken = 0;
 
 const translations = {
   ko: {
@@ -417,12 +418,18 @@ function updateFormatOptions() {
 
 function setResultHidden() {
   resultPanel.hidden = true;
+  resultSummary.textContent = "";
   downloadLink.removeAttribute("href");
+  downloadLink.removeAttribute("download");
   downloadLink.hidden = false;
   if (lastObjectUrl) {
     URL.revokeObjectURL(lastObjectUrl);
     lastObjectUrl = null;
   }
+}
+
+function cancelPendingConversion() {
+  conversionToken += 1;
 }
 
 function syncDimension(changedInput) {
@@ -461,6 +468,7 @@ function renderFileSummary() {
 }
 
 function resetApp() {
+  cancelPendingConversion();
   sourceFile = null;
   sourceImage = null;
   originalWidth = 0;
@@ -485,6 +493,7 @@ function resetApp() {
 async function loadFile(file) {
   if (!file || !file.type.startsWith("image/")) return;
 
+  cancelPendingConversion();
   setResultHidden();
   if (sourceUrl) URL.revokeObjectURL(sourceUrl);
 
@@ -591,16 +600,21 @@ async function convertImage() {
   convertButton.disabled = true;
   convertButton.textContent = t("converting");
   setResultHidden();
+  const currentConversionToken = ++conversionToken;
 
   if (format === "image/gif") {
     try {
       const blob = await compressGif({ targetWidth, targetHeight, quality });
+      if (currentConversionToken !== conversionToken) return;
       showResult(blob, format, targetWidth, targetHeight);
     } catch (error) {
+      if (currentConversionToken !== conversionToken) return;
       showError(error instanceof Error ? error.message : t("gifCompressError"));
     } finally {
-      convertButton.disabled = false;
-      convertButton.textContent = t("convert");
+      if (currentConversionToken === conversionToken) {
+        convertButton.disabled = false;
+        convertButton.textContent = t("convert");
+      }
     }
     return;
   }
@@ -628,17 +642,20 @@ async function convertImage() {
         ? encodePngFromCanvas(canvas, compression)
         : await canvasToBlob(canvas, format, quality);
   } catch (error) {
+    if (currentConversionToken !== conversionToken) return;
     showError(error instanceof Error ? error.message : t("convertError"));
     convertButton.disabled = false;
     convertButton.textContent = t("convert");
     return;
   }
   if (!blob) {
+    if (currentConversionToken !== conversionToken) return;
     convertButton.disabled = false;
     convertButton.textContent = t("convert");
     return;
   }
 
+  if (currentConversionToken !== conversionToken) return;
   showResult(blob, format, targetWidth, targetHeight);
 
   convertButton.disabled = false;
@@ -683,17 +700,20 @@ fileInput.addEventListener("change", (event) => {
 });
 
 widthInput.addEventListener("input", () => {
+  cancelPendingConversion();
   syncDimension(widthInput);
   setResultHidden();
 });
 
 heightInput.addEventListener("input", () => {
+  cancelPendingConversion();
   syncDimension(heightInput);
   setResultHidden();
 });
 
 formatInputs.forEach((input) => {
   input.addEventListener("change", () => {
+    cancelPendingConversion();
     updateQualityState();
     setResultHidden();
   });
@@ -701,6 +721,7 @@ formatInputs.forEach((input) => {
 
 compressionInputs.forEach((input) => {
   input.addEventListener("change", () => {
+    cancelPendingConversion();
     updateQualityState();
     setResultHidden();
   });
@@ -739,6 +760,7 @@ scaleButtons.forEach((button) => {
       Math.max(1, Math.round(originalWidth * scale)),
       Math.max(1, Math.round(originalHeight * scale)),
     );
+    cancelPendingConversion();
     setResultHidden();
   });
 });

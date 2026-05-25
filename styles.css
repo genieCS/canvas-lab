@@ -7,9 +7,9 @@
   --ink: #eef6f4;
   --muted: #92a3ad;
   --line: #22313b;
-  --accent: #3dd6b2;
-  --accent-dark: #9cf5df;
-  --accent-soft: rgba(61, 214, 178, 0.14);
+  --accent: #4aff7d;
+  --accent-dark: #b8ffcb;
+  --accent-soft: rgba(74, 255, 125, 0.14);
   --field: #0b1117;
   --shadow: 0 22px 70px rgba(0, 0, 0, 0.36);
 }
@@ -22,7 +22,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% 8%, rgba(61, 214, 178, 0.18), transparent 28%),
+    radial-gradient(circle at 12% 8%, rgba(74, 255, 125, 0.18), transparent 28%),
     radial-gradient(circle at 84% 18%, rgba(96, 165, 250, 0.14), transparent 26%),
     linear-gradient(180deg, #0d1218, #070a0f 68%),
     var(--bg);
@@ -436,12 +436,21 @@ h2 {
   display: grid;
   place-items: center;
   border-color: var(--accent);
-  background: var(--accent);
-  color: white;
+  color: #06100a;
 }
 
 .primary-button {
   min-height: 52px;
+  border-color: #8fffb0;
+  background: linear-gradient(90deg, #86ffb0 0%, #a8ffdb 42%, #72f7ff 58%, #74ff91 100%);
+  box-shadow: 0 0 0 1px rgba(184, 255, 203, 0.16), 0 14px 34px rgba(74, 255, 125, 0.18);
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.primary-button:hover {
+  border-color: #c3ffd2;
+  filter: brightness(1.06);
 }
 
 .primary-button:disabled {
@@ -454,6 +463,7 @@ h2 {
 .download-button {
   min-width: 116px;
   padding: 0 14px;
+  background: var(--accent);
 }
 
 .result-panel {

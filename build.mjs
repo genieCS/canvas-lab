@@ -81,5 +81,8 @@ await buildCss();
 await buildApp();
 await buildWorker();
 await cp("vendor", `${distDir}/vendor`, { recursive: true });
+await cp("robots.txt", `${distDir}/robots.txt`);
+await cp("sitemap.xml", `${distDir}/sitemap.xml`);
+await cp("favicon.svg", `${distDir}/favicon.svg`);
 
 console.log("Built dist/");
